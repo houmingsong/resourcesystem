@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.lovo.resourcesystem.dao.ResourceStockDao">
+	<resultMap id="resourceStockRM" type="resourceStockEntity">
+		<id property="resourceStocks" column="pk_resourceStocks" />
+		<result property="plateNumber" column="f_plateNumber" />
+		<result property="state" column="f_state" />
+	</resultMap>
+
+	<insert id="resourceStockAdd"
+		parameterType="resourceStockEntity">
+		insert into t_ResourceStock values(null,#{plateNumber},#{state})
+	</insert>
+
+	<delete id="resourceStockDelete">
+		delete from t_ResourceStock where pk_resourceStocks = #{resourceStocks}
+	</delete>
+	
+	<select id="resourceStockFind" resultMap="resourceStockRM">
+		select * from t_ResourceStock
+		<where>
+ 				<if test="param1 != null">
+ 					and f_state = #{param1}
+ 				</if>
+ 		</where>
+		 limit #{param2},5 
+	</select>
+	
+	<update id="resourceStockRevise">
+		UPDATE t_resourcestock SET f_state=#{arg0} WHERE pk_resourceStocks =#{arg1} 
+	</update>
+
+	<select id="getTotalPageByItem" resultType="int">
+		select count(*) from t_resourcestock
+			<where>
+				<if test="param1 != null">
+					and f_state = #{param1}
+				</if>
+			</where>
+	</select>
+
+	<select id="findStateById" resultType="String">
+		select f_state from t_resourcestock
+		<where>
+				<if test="param1 != null">
+					and pk_resourceStocks = #{param1}
+				</if>
+			</where>
+	</select>
+	
+	<select id="findCar" resultMap="resourceStockRM">
+		select * from t_resourcestock where f_state=#{param1}	
+	</select>
+	
+	<select id="findPlateNumber" resultType="String">
+		select f_plateNumber from t_resourcestock where pk_resourceStocks=#{param1}	
+	</select>
+	
+	
+	
+	<select id="finCarNum"  resultType="int">	  
+	      select  count(*) from  t_resourcestock where f_state=#{param1}	
+	</select>
+	
+	<update id="updateState">
+		UPDATE t_resourcestock SET f_state=#{arg0} WHERE f_plateNumber =#{arg1} 
+	</update>
+	
+</mapper>

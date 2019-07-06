@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.lovo.resourcesystem.dao.AcceptNewsDao">
+<resultMap type="acceptNewsEntity" id="acceptNewsRM">
+		<id property="id" column="pk_id"></id>
+		<result property="eventSourceId" column="fk_eventSourceId"/>
+		<result property="eventName" column="f_eventName"/>
+		<result property="area" column="f_area"/>
+		<result property="level" column="f_level"/>
+		<result property="type" column="f_type"/>
+		<result property="site" column="f_site"/>
+		<result property="numberpeople" column="f_numberpeople"/>
+		<result property="carnumber" column="f_carnumber"/>
+		<result property="state" column="f_state"/>
+	</resultMap>
+	
+	<insert id="add" parameterType="acceptNewsEntity">
+		insert into t_acceptnews values(null,#{eventSourceId},#{eventName},#{area},#{level},#{type},#{site},#{numberpeople},#{carnumber},#{state})
+	</insert>
+
+
+  	<select id="acceptNewsFind" resultMap="acceptNewsRM">
+		select * from t_acceptnews limit #{currPage},5
+	</select>
+  
+  
+	
+	<select id="getTotalPageByItem" resultType="Integer">
+		select count(*) from t_acceptnews
+	</select>
+	
+	<select id="findById" resultMap="acceptNewsRM">
+		select * from t_acceptnews where pk_id=#{param1}
+	</select>
+
+  	<select id="acceptNewsFindEcharts" resultMap="acceptNewsRM">
+		select * from t_acceptnews 
+	</select>
+	
+	
+	<update id="updateState">
+		UPDATE t_acceptnews SET f_state=#{arg0} WHERE fk_eventSourceId =#{arg1} 
+	</update>
+</mapper>

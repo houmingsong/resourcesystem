@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.lovo.resourcesystem.dao.StockNumberDao">
+<resultMap type="stockNumberEntity" id="stockNumberRM">
+		<id property="resourceStocks" column="pk_resourceStocks"></id>
+		<result property="otalCar" column="f_totalCar"/>
+		<result property="totalPerson" column="f_totalPerson"/>
+		<result property="useCar" column="f_useCar"/>
+		<result property="usePerson" column="f_usePerson"/>
+	</resultMap>
+
+
+
+	
+	<select id="stockNumberFind" resultMap="stockNumberRM">
+		select * from t_stocknumber 
+	</select>
+	
+	
+	
+	<update id="stockNumberCarRevise"  >
+		update t_stocknumber set f_useCar=#{param2}  where pk_resourceStocks=#{param1}
+	</update>
+	
+	
+	<update id="stockNumberPersonRevise"  >
+		update t_stocknumber set f_usePerson=#{param2}  where pk_resourceStocks=#{param1}
+	</update>
+	
+	
+	<update id="stockNumberDoctor"  >
+		update t_stocknumber set f_totalPerson=#{param2}  where pk_resourceStocks=#{param1}
+	</update>
+	
+	
+	<update id="stockNumberCar"  >
+		update t_stocknumber set f_totalCar=#{param2}  where pk_resourceStocks=#{param1}
+	</update>
+	
+	
+	
+  
+<!--   <select id="getListUser" resultType="powerEntity" >
+    select p.* from t_user u,t_userrole ur,t_role r,t_rolepower rp ,t_power  p 
+    WHERE u.id=ur.userid AND ur.roleid=r.roleId and r.roleId=rp.roleid 
+    AND rp.powerid=p.powerId AND u.id=1
+  </select> -->
+  
+
+  
+</mapper>

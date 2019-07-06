@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.lovo.resourcesystem.dao.UserDao">
+<resultMap type="userEntity" id="userRM">
+		<id property="id" column="pk_id"></id>
+		<result property="userName" column="f_userName"/>
+		<result property="password" column="f_password"/>
+		<result property="sex" column="f_sex"/>
+		<result property="birthday" column="f_birthday"/>
+		<result property="telephone" column="f_telephone"/>
+		
+	</resultMap>
+
+
+
+  <insert id="userAdd">
+        insert into t_user (f_userName,f_password,f_sex,f_birthday,f_telephone)
+        value(#{userName},#{password},#{sex},#{birthday},#{telephone})
+   </insert>
+  
+  <delete id="userDelete" parameterType="int">
+		delete from t_user where pk_id=#{id}
+	</delete>
+	
+	<select id="userFind" resultMap="userRM">
+		select * from t_user
+	</select>
+	
+	
+	
+	<update id="userRevise"  >
+		update t_user set f_password=#{param2} where pk_id=#{param1}
+	</update>
+	
+	
+	<select id="userFindId" resultMap="userRM">
+		select * from t_user where pk_id=#{id}
+	</select>
+	
+	
+	
+  
+<!--   <select id="getListUser" resultType="powerEntity" >
+    select p.* from t_user u,t_userrole ur,t_role r,t_rolepower rp ,t_power  p 
+    WHERE u.id=ur.userid AND ur.roleid=r.roleId and r.roleId=rp.roleid 
+    AND rp.powerid=p.powerId AND u.id=1
+  </select> -->
+  
+
+  
+</mapper>

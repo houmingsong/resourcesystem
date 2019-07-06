@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.lovo.resourcesystem.dao.CashStatementDao">
+<resultMap type="cashStatementEntity" id="cashStatementRM">
+		<id property="inventoriesId" column="pk_InventoriesId"></id>
+		<result property="name" column="f_name"/>
+		<result property="phone" column="f_phone"/>
+		<result property="state" column="f_state"/>
+	</resultMap>
+
+
+
+  <insert id="cashStatementAdd">
+        insert into t_cashstatement (f_name,f_phone,f_state)
+        value(#{name},#{phone},#{state})
+   </insert>
+  
+  <delete id="cashStatementdelete" parameterType="int">
+		delete from t_cashstatement where pk_InventoriesId=#{InventoriesId}
+	</delete>
+	
+	<select id="cashStatementFinda" resultMap="cashStatementRM">
+		select * from t_cashstatement 
+	</select>
+	
+	<select id="cashStatementFindb"  resultMap="cashStatementRM" >
+        select * from  t_cashstatement
+        <where>
+        	<if test="param1 !=null">
+        	and  f_state like "%"#{param1}"%"
+        	</if>
+        </where>
+	</select>
+	
+	<update id="cashStatementRevise"  >
+		update t_cashstatement set f_state=#{param2} where pk_InventoriesId=#{param1}
+	</update>
+	
+	
+	<select id="findPhone" resultType="String">
+		select f_phone from t_cashstatement where f_name=#{param1}				
+	</select>
+	
+  
+  	<select id="findHeadName" resultType="String">
+		select f_name from t_cashstatement where pk_InventoriesId=#{param1}				
+	</select>
+	
+	<select id="finDoctorNum"  resultType="int">
+	  
+	      select  count(*) from  t_cashstatement where f_state=#{param1}
+	
+	</select>
+	
+	<update id="updateState">
+		UPDATE t_cashstatement SET f_state=#{arg0} WHERE f_name =#{arg1} 
+	</update>
+
+<!--   <select id="getListUser" resultType="powerEntity" >
+    select p.* from t_user u,t_userrole ur,t_role r,t_rolepower rp ,t_power  p 
+    WHERE u.id=ur.userid AND ur.roleid=r.roleId and r.roleId=rp.roleid 
+    AND rp.powerid=p.powerId AND u.id=1
+  </select> -->
+  
+
+  
+</mapper>

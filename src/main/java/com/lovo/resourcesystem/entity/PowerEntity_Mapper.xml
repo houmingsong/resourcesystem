@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lovo.dispatchSystem.dao.IPowerDao">
+	<resultMap type="powerEntity" id="powerRm">
+		<id property="id" column="pk_id" />
+		<result property="powerName" column="f_powerName" />
+		<result property="describe" column="f_describe" />
+		<result property="url" column="f_url" />
+	</resultMap>
+	<sql id="base_column">pk_id,f_powerName,f_describe,f_url</sql>
+
+
+	<insert id="add" parameterType="powerEntity">
+		INSERT INTO t_power VALUES
+		(null,#{powerName},#{url},#{describe})
+	</insert>
+	<select id="findByCharacterId" resultMap="powerRm">
+		select p.* from t_power p join t_c2p c on p.pk_id=c.fk_powerId where c.fk_characterId=#{param1}
+	</select>
+	<select id="findAll" resultMap="powerRm">
+		select <include refid="base_column"/> from t_power 
+	</select>
+	<select id="findByUserId" resultMap="powerRm">
+		select p.*
+		from t_power p join t_c2p c on p.pk_id=c.fk_powerId 
+		join t_u2c u on u.fk_characterId= c.fk_characterId where u.fk_userId=#{userId}
+	
+	</select>
+</mapper>

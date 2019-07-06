@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.lovo.dispatchSystem.dao.IUserCharacterDao">
+	<resultMap type="userCharacterEntity" id="userCharacterRm">
+		<id property="id" column="pk_id" />
+		<result property="userId" column="fk_userId" />
+		<result property="characterId" column="fk_characterId" />
+	</resultMap>
+	<sql id="base_column">pk_id,`fk_userId`,fk_characterId</sql>
+
+
+	<insert id="add" parameterType="userCharacterEntity">
+		insert into t_u2c values(null,#{userId},#{characterId})
+	</insert>
+	<select id="findById" resultMap="userCharacterRm">
+		select <include refid="base_column"/> from t_u2c where pk_id=#{u2cId}
+	</select>
+	<update id="update">
+		update t_u2c set fk_userId=#{userId},fk_characterId=#{characterId} where pk_id=#{id}
+	</update>
+	<delete id="deleteByCharacterId" >
+		delete from t_u2c where fk_characterId=#{characterId}
+	</delete>
+	<delete id="deleteByUserId" >
+		delete from t_u2c where fk_userId=#{userId}
+	</delete>
+	<delete id="deleteByCharacterIdAndUserId" >
+		delete from t_u2c where fk_characterId=#{param1} and fk_userId=#{param2}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.lovo.resourcesystem.dao.ResourceInfoDao">
+	<resultMap id="ResourceInfoRM" type="resourceInfoEntity">
+		<id property="id" column="pk_id" />
+		<result property="eventSourceId" column="fk_eventSourceId" />
+		<result property="state" column="f_state" />
+		<result property="outDate" column="f_outDate" />
+		<result property="backDate" column="f_backDate" />
+		<result property="type" column="f_type" />
+		<result property="resourceName" column="f_resourceName" />
+		<result property="headId" column="fk_headId" />
+	</resultMap>
+
+	<insert id="resourceInfoEntityAdd"
+		parameterType="ResourceInfoEntity">
+		insert into t_resourceinfo values(null,#{eventSourceId},#{state},#{outDate},#{backDate},#{type},#{resourceName},#{headId})
+	</insert>
+
+	
+	
+	<select id="resourceInfoEntityFind" resultMap="ResourceInfoRM">
+		select * from t_resourceinfo limit #{param1},5		
+	</select>
+	
+	
+	
+	<select id="dispatchHead" resultType="String">
+		select f_resourceName from t_resourceinfo
+			<where>
+				<if test="param1 != null">
+					and fk_eventSourceId = #{param1}
+				</if>
+				<if test="param2 != null">
+					and f_state = #{param2}
+				</if>
+				<if test="param3 != null">
+					and fk_headId = #{param3}
+				</if>
+			</where>
+	</select>
+	
+	
+	
+	<select id="resourceInfoEntityFinda"  resultMap="ResourceInfoRM">
+	    SELECT DISTINCT * FROM t_resourceinfo
+	    <where>
+				<if test="param1 != null">
+					and f_type = #{param1}
+				</if>
+				<if test="param2 != null">
+					and fk_eventSourceId = #{param2}
+				</if>
+			</where>
+			
+	</select>
+	
+	<update id="retrieve">
+		UPDATE t_resourceinfo SET f_state=#{arg0},f_backDate=#{arg1} WHERE pk_id =#{arg2} 
+	</update>
+	
+</mapper>

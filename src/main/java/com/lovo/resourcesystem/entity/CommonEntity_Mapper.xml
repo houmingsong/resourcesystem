@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.lovo.dispatchSystem.dao.ICommonDao">
+	<resultMap type="commonEntity" id="commonRm">
+		<id property="id" column="pk_id" />
+		<result property="type" column="f_type" />
+		<result property="key" column="f_key" />
+		<result property="value" column="f_value" />
+	</resultMap>
+	
+	<select id="findarea" resultMap="commonRm">
+		select * from t_common where f_type=#{param1}
+	</select>
+	<select id="findByTypeAndKey" resultMap="commonRm">
+		select * from t_common where f_type=#{param1} and f_key=#{param2}
+	</select>
+	<insert id="add">
+		insert  into t_common values(null,#{type},#{key},#{value});
+	</insert>
+	<delete id="deleteById">
+		delete from t_common where pk_id=#{id}
+	</delete>
+	<update id="updateCommon">
+		update t_common set f_type=#{type},f_key=#{key},f_value=#{value} where pk_id=#{id}
+	</update>
+</mapper>
